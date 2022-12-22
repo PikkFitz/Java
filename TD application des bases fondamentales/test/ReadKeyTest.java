@@ -1,9 +1,11 @@
-package test.java;
-
-
+import org.apache.commons.lang3.StringUtils;
+import org.germain.tool.ManaBox;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ReadKeyTest
 {
+    @Test
     public void readKeyTest()
     {
         // La clé cryptée donnée plus haut
@@ -11,6 +13,17 @@ public class ReadKeyTest
         // La clé décryptée que nous devrions obtenir
         String keyDecrypted = "CFfrkowl.aDzyS:eHjsGPZgMApWvRYVmtnK!BuU IQiEXTxbqhLdNJO,'c";
         // le test d'égalité entre la clé attendue et la sortie de la méthode de la librairie. Si le décryptage ne fonctionne pas nous aurons le message définit ici
-        Assert.assertEquals("La librairie de décryptage est mal installée", keyDecrypted, ManaBox.decrypt(keyCrypted));
+        Assert.assertEquals("La librairie de décryptage est mal installée",keyDecrypted, ManaBox.decrypt(keyCrypted));
     }
+
+    @Test
+    public void testLissage()
+    {
+        // La clé décryptée que nous devrions obtenir
+        String phrase = "ça éteint les lumières";
+        String lissage = StringUtils.stripAccents(phrase);
+        System.out.println(lissage);
+    }
+
 }
+
