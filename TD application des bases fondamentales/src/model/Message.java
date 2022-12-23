@@ -1,13 +1,13 @@
 package model;
 
 import tools.TransCoder;
-
 import org.germain.tool.ManaBox;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +16,14 @@ import static java.nio.file.Files.readAllLines;
 
 public class Message
 {
+    private Boolean encoded;
     private Path keyPath;
     private String key;
     private Path msgClearPath;
     private String msgClear;
     private Path msgEncodedPath;
     private String msgEncoded;
-
-    private Boolean encoded;
+    private TransCoder transCoder;
 
 
     // !!!!!!!!!!!!!!! CONSTRUCTOR !!!!!!!!!!!!!!!!!!
@@ -57,11 +57,8 @@ public class Message
 
         try
         {
-            String keyCrypt = Files.readString(keyPath);
-            //System.out.println("keyCrypt : " + keyCrypt);
-            key = ManaBox.decrypt(keyCrypt);
+            key = ManaBox.decrypt(Files.readString(keyPath));
             System.out.println("key : " + key);
-
         }
         catch (IOException e)
         {
@@ -70,9 +67,10 @@ public class Message
             System.out.println(e.getMessage());
         }
 
-        if (encoded.equals("false"))
+        if (encoded.equals(false))
         {
             // !!!!!!!!!!!!!!! MESSAGE CLEAR PATH !!!!!!!!!!!!!!!
+            System.out.println("Message NON encodé --> MESSAGE CLEAR PATH");
 
             msgClearPath = Paths.get(path, "messageClear.txt");
             System.out.println("Chemin du fichier messageClear.txt : " + msgClearPath);
@@ -105,12 +103,14 @@ public class Message
             for (String messageClear : listeClear)
             {
                 System.out.println("messageClear : " + messageClear);
-                msgEncoded = messageClear;
+                msgClear = messageClear;
             }
         }
         else
         {
             // !!!!!!!!!!!!!!! MESSAGE ENCODED PATH !!!!!!!!!!!!!!!
+            System.out.println("Message encodé --> MESSAGE ENCODED PATH");
+
 
             msgEncodedPath = Paths.get(path, "messageEncoded.txt");
             System.out.println("Chemin du fichier messageClear.txt : " + msgEncodedPath);
@@ -145,12 +145,86 @@ public class Message
                 System.out.println("messageEncoded : " + messageEncoded);
                 msgEncoded = messageEncoded;
             }
+
         }
+
+        // !!!!!!!!!!!!!!! TRANSCODER !!!!!!!!!!!!!!!
+
+        transCoder = new TransCoder(key);
     }
 
 
     // !!!!!!!!!!!!!! METHODES !!!!!!!!!!!!!!!!!
-    // !!!!!!!!!!!!!! ECRIRE ET LIRE DANS UN FICHIER !!!!!!!!!!!!!!!!!
+
+    // !!!!!!!!!!!!!! METHODE READNWRITE !!!!!!!!!!!!!!!!!
+    public void readNwrite()
+    {
+        // !!!!!! TRANSCODAGE !!!!!!
+        if (encoded.equals(false))
+        {
+            System.out.println("ENCODAGE du message...");
+            String msgFinal = this.transCoder.encode(msgClear);
+            //System.out.println("msgFinal : " + msgFinal);
+        }
+        else
+        {
+            System.out.println("DECODAGE du message...");
+            String msgFinal = this.transCoder.decode(msgEncoded);
+            //System.out.println("msgFinal : " + msgFinal);
+        }
+
+
+        // !!!!!! ECRITURE DANS LE FICHIER !!!!!!
+
+        String projectFolder = System.getProperty("user.dir");
+        String home = projectFolder + "/docs";
+        System.out.println(home);
+
+        Path path = Paths.get(home, "messageFinal.txt");
+        System.out.println(path);
+
+        // On teste si le fichier existe
+        if(Files.exists(path))
+        {
+            System.out.println("Fichier trouvé !");
+        }
+        else
+        {
+            System.out.println("Le fichier n'existe pas !");
+        }
+
+        try
+        {
+            Files.writeString(path, messageCode + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
+            // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
+            // System.lineSeparator() --> Ajoute le texte en passant une ligne
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // !!!!!!!!!!!!!! EXEMPLE --> ECRIRE ET LIRE DANS UN FICHIER !!!!!!!!!!!!!!!!!
     /*public static void exempleEcrireEtLireDansFichier()
     {
         String projectFolder = System.getProperty("user.dir");
@@ -209,51 +283,6 @@ public class Message
             System.out.println(ligne);
         }
     }*/
-
-
-    // !!!!!!!!!!!!!! MESSAGE CLEAR PATH !!!!!!!!!!!!!!!!!
-
-
-    // !!!!!!!!!!!!!! MESSAGE CLEAR !!!!!!!!!!!!!!!!!
-    /*public static String messageClear()
-    {
-
-        path = messageClearPath().path;
-
-        List<String> liste = new ArrayList<>();
-        try
-        {
-            liste = Files.readAllLines(path);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            // Affiche l’exception avec d’autres détails comme le numéro de ligne et le nom de la classe où l’exception s’est produite (aide au diagnostique)
-        }
-
-        for (String message : liste)
-        {
-            System.out.println(message);
-        }
-        return message;
-    }*/
-
-        /*List<String> liste = new ArrayList<>();
-        try
-        {
-            liste = Files.readAllLines(path);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            // Affiche l’exception avec d’autres détails comme le numéro de ligne et le nom de la classe où l’exception s’est produite (aide au diagnostique)
-        }
-
-        for (String message : liste)
-        {
-            System.out.println(message);
-        }
-        return message;*/
 
 
 }

@@ -41,13 +41,15 @@ public class Menu
                     break;
                 case "3":
                     boolean encodeDecode = true;
-                    System.out.println("encodeDecode : " + encodeDecode);
+                    //System.out.println("encodeDecode : " + encodeDecode);
                     Message message = new Message(encodeDecode);
+                    message.readNwrite();
                     break;
                 case "4":
                     encodeDecode = false;
-                    System.out.println("encodeDecode : " + encodeDecode);
+                    //System.out.println("encodeDecode : " + encodeDecode);
                     message = new Message(encodeDecode);
+                    message.readNwrite();
                     break;
                 case "0":
                     System.out.println("================================================================================");

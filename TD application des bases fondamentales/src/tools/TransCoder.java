@@ -71,7 +71,7 @@ public class TransCoder
         {
             messageCode += encode.get(a);
         }
-            System.out.println(messageCode);
+            System.out.println("MESSAGE ENCODE : " + messageCode);
             return messageCode;
     }
 
@@ -87,10 +87,9 @@ public class TransCoder
             messageDecode += decode.get(scanMsg);
             //System.out.println(messageDecode);
         }
-        System.out.println(messageDecode);
+        System.out.println("MESSAGE DECODE : " + messageDecode);
         return messageDecode;
     }
-
 
 }
 
