@@ -58,6 +58,27 @@ public class TransCoder
         System.out.println(decode);
     }
 
+    // !!!!!!!!!!!!! GETTER SETTER!!!!!!!!!!!!!
+    public HashMap<Character, String> getEncode()
+    {
+        return encode;
+    }
+
+    public void setEncode(HashMap<Character, String> encode)
+    {
+        this.encode = encode;
+    }
+
+    public HashMap<String, Character> getDecode()
+    {
+        return decode;
+    }
+
+    public void setDecode(HashMap<String, Character> decode)
+    {
+        this.decode = decode;
+    }
+
 
     // !!!!!!!!!!!!!! METHODES !!!!!!!!!!!!!!!!!
 
@@ -65,30 +86,30 @@ public class TransCoder
 
     public String encode(String msg)
     {
-        String messageCode = "";
+        String messageFinal = "";
 
         for (char a: msg.toCharArray())
         {
-            messageCode += encode.get(a);
+            messageFinal += encode.get(a);
         }
-            System.out.println("MESSAGE ENCODE : " + messageCode);
-            return messageCode;
+            System.out.println("MESSAGE ENCODE : " + messageFinal);
+            return messageFinal;
     }
 
     // !!!!!!!!!!!!!! DECODE !!!!!!!!!!!!!!!!!
 
     public String decode(String msg)
     {
-        String messageDecode = "";
+        String messageFinal = "";
 
         for (int i = 0; i<msg.length(); i=i+2)
         {
             String scanMsg = msg.substring(i, i+2);
-            messageDecode += decode.get(scanMsg);
+            messageFinal += decode.get(scanMsg);
             //System.out.println(messageDecode);
         }
-        System.out.println("MESSAGE DECODE : " + messageDecode);
-        return messageDecode;
+        System.out.println("MESSAGE DECODE : " + messageFinal);
+        return messageFinal;
     }
 
 }

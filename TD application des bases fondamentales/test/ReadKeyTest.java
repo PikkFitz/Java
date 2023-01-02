@@ -1,7 +1,10 @@
+import tools.TransCoder;
+import model.Message;
 import org.apache.commons.lang3.StringUtils;
 import org.germain.tool.ManaBox;
 import org.junit.Assert;
 import org.junit.Test;
+
 
 public class ReadKeyTest
 {
@@ -17,9 +20,28 @@ public class ReadKeyTest
     }
 
     @Test
+    public void createMapTest()
+    {
+        String keyCrypted = "6lUjKOzUj4e/Gelw9c6sDLqHniwulClN6XSayZ+HRF/kbZx+CMf95jxrhm4YFSY26OnxVlsrzGkO00IMeAFs3g==";
+        TransCoder transcoderTest = new TransCoder(keyCrypted);
+        Assert.assertNotNull(transcoderTest.getEncode());
+        System.out.println(transcoderTest.getEncode().toString());
+        Assert.assertNotNull(transcoderTest.getDecode());
+        System.out.println(transcoderTest.getDecode().toString());
+    }
+
+    @Test
+    public void messageTest()
+    {
+        Message messageEncoded = new Message(true);
+        messageEncoded.readNwrite();
+        Message messageClear = new Message(false);
+        messageClear.readNwrite();
+    }
+
+    @Test
     public void testLissage()
     {
-        // La clé décryptée que nous devrions obtenir
         String phrase = "ça éteint les lumières";
         String lissage = StringUtils.stripAccents(phrase);
         System.out.println(lissage);

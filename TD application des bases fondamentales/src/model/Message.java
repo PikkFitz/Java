@@ -109,6 +109,7 @@ public class Message
         else
         {
             // !!!!!!!!!!!!!!! MESSAGE ENCODED PATH !!!!!!!!!!!!!!!
+
             System.out.println("Message encodé --> MESSAGE ENCODED PATH");
 
 
@@ -148,9 +149,11 @@ public class Message
 
         }
 
+
         // !!!!!!!!!!!!!!! TRANSCODER !!!!!!!!!!!!!!!
 
         transCoder = new TransCoder(key);
+
     }
 
 
@@ -160,16 +163,19 @@ public class Message
     public void readNwrite()
     {
         // !!!!!! TRANSCODAGE !!!!!!
+
+        String msgFinal = "";
+
         if (encoded.equals(false))
         {
             System.out.println("ENCODAGE du message...");
-            String msgFinal = this.transCoder.encode(msgClear);
+            msgFinal = this.transCoder.encode(msgClear);
             //System.out.println("msgFinal : " + msgFinal);
         }
         else
         {
             System.out.println("DECODAGE du message...");
-            String msgFinal = this.transCoder.decode(msgEncoded);
+            msgFinal = this.transCoder.decode(msgEncoded);
             //System.out.println("msgFinal : " + msgFinal);
         }
 
@@ -178,27 +184,28 @@ public class Message
 
         String projectFolder = System.getProperty("user.dir");
         String home = projectFolder + "/docs";
-        System.out.println(home);
+        //System.out.println(home);
 
         Path path = Paths.get(home, "messageFinal.txt");
-        System.out.println(path);
+        //System.out.println(path);
 
         // On teste si le fichier existe
         if(Files.exists(path))
         {
-            System.out.println("Fichier trouvé !");
+            System.out.println("Fichier \"messageFinal.txt\" trouvé !");
         }
         else
         {
-            System.out.println("Le fichier n'existe pas !");
+            System.out.println("Le fichier \"messageFinal.txt\" n'existe pas !");
         }
 
         try
         {
-            Files.writeString(path, messageCode + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            Files.writeString(path, msgFinal + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
             // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
             // System.lineSeparator() --> Ajoute le texte en passant une ligne
+            System.out.println("Le message a été écrit dans : " + path);
         }
         catch (IOException e)
         {
