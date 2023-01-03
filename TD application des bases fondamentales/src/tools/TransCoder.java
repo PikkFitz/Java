@@ -32,7 +32,7 @@ public class TransCoder
                 char2++;
             }
         }
-        System.out.println(encode);
+        //System.out.println(encode);
 
 
         // !!!!!!!!!!!!!!! DECODE !!!!!!!!!!!!!!!
@@ -55,8 +55,9 @@ public class TransCoder
                 charB++;
             }
         }
-        System.out.println(decode);
+        //System.out.println(decode);
     }
+
 
     // !!!!!!!!!!!!! GETTER SETTER!!!!!!!!!!!!!
     public HashMap<Character, String> getEncode()

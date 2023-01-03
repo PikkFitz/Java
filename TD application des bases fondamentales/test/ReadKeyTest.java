@@ -34,8 +34,10 @@ public class ReadKeyTest
     public void messageTest()
     {
         Message messageEncoded = new Message(true);
+        Assert.assertNotNull(messageEncoded);
         messageEncoded.readNwrite();
         Message messageClear = new Message(false);
+        Assert.assertNotNull(messageClear);
         messageClear.readNwrite();
     }
 

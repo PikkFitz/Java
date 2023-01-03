@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static java.nio.file.Files.readAllLines;
@@ -20,9 +19,9 @@ public class Message
     private Path keyPath;
     private String key;
     private Path msgClearPath;
-    private String msgClear;
+    private List<String> msgClear;
     private Path msgEncodedPath;
-    private String msgEncoded;
+    private List<String> msgEncoded;
     private TransCoder transCoder;
 
 
@@ -103,8 +102,9 @@ public class Message
             for (String messageClear : listeClear)
             {
                 System.out.println("messageClear : " + messageClear);
-                msgClear = messageClear;
+                //msgClear = messageClear;
             }
+            msgClear = listeClear;
         }
         else
         {
@@ -144,8 +144,9 @@ public class Message
             for (String messageEncoded : listeEncoded)
             {
                 System.out.println("messageEncoded : " + messageEncoded);
-                msgEncoded = messageEncoded;
+                //msgEncoded = messageEncoded;
             }
+            msgEncoded = listeEncoded;
 
         }
 
@@ -162,25 +163,7 @@ public class Message
     // !!!!!!!!!!!!!! METHODE READNWRITE !!!!!!!!!!!!!!!!!
     public void readNwrite()
     {
-        // !!!!!! TRANSCODAGE !!!!!!
-
         String msgFinal = "";
-
-        if (encoded.equals(false))
-        {
-            System.out.println("ENCODAGE du message...");
-            msgFinal = this.transCoder.encode(msgClear);
-            //System.out.println("msgFinal : " + msgFinal);
-        }
-        else
-        {
-            System.out.println("DECODAGE du message...");
-            msgFinal = this.transCoder.decode(msgEncoded);
-            //System.out.println("msgFinal : " + msgFinal);
-        }
-
-
-        // !!!!!! ECRITURE DANS LE FICHIER !!!!!!
 
         String projectFolder = System.getProperty("user.dir");
         String home = projectFolder + "/docs";
@@ -199,22 +182,54 @@ public class Message
             System.out.println("Le fichier \"messageFinal.txt\" n'existe pas !");
         }
 
-        try
+
+        // !!!!!! TRANSCODAGE ET ECRITURE DANS LE FICHIER !!!!!!
+
+        if (encoded.equals(false))
         {
-            Files.writeString(path, msgFinal + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
-            // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
-            // System.lineSeparator() --> Ajoute le texte en passant une ligne
-            System.out.println("Le message a été écrit dans : " + path);
+            System.out.println("ENCODAGE du message...");
+
+            for (String ligne : msgClear)
+            {
+                String ligneEncoded = transCoder.encode(ligne);
+                try
+                {
+                    Files.writeString(path, ligneEncoded + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
+                    // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
+                    // System.lineSeparator() --> Ajoute le texte en passant une ligne
+                    System.out.println("Le message a été écrit dans : " + path);
+                }
+                catch (IOException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
+            //msgFinal = this.transCoder.encode(msgClear);
+            //System.out.println("msgFinal : " + msgFinal);
         }
-        catch (IOException e)
+        else
         {
-            System.out.println(e.getMessage());
+            System.out.println("DECODAGE du message...");
+
+            for (String ligne : msgEncoded)
+            {
+                String ligneClear = transCoder.decode(ligne);
+                try
+                {
+                    Files.writeString(path, ligneClear + System.lineSeparator(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
+                    // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
+                    // System.lineSeparator() --> Ajoute le texte en passant une ligne
+                    System.out.println("Le message a été écrit dans : " + path);
+                }
+                catch (IOException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
-
-
-
-    }
+    } // Methode readNwrite
 
 
 
