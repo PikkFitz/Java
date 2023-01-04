@@ -57,6 +57,7 @@ public class Message
         try
         {
             key = ManaBox.decrypt(Files.readString(keyPath));
+            System.out.println("Clé décryptée !");
             System.out.println("key : " + key);
         }
         catch (IOException e)
@@ -230,81 +231,5 @@ public class Message
             }
         }
     } // Methode readNwrite
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // !!!!!!!!!!!!!! EXEMPLE --> ECRIRE ET LIRE DANS UN FICHIER !!!!!!!!!!!!!!!!!
-    /*public static void exempleEcrireEtLireDansFichier()
-    {
-        String projectFolder = System.getProperty("user.dir");
-        String home = projectFolder + "/docs";
-        System.out.println(home);
-
-        Path path = Paths.get(home, "unfichier.txt");
-        System.out.println(path);
-
-        // On teste si le fichier existe
-        if(Files.exists(path))
-        {
-            System.out.println("Le fichier existe déjà ! (Attention : Réécrit/Remplace le fichier !)");
-        }
-        else
-        {
-            System.out.println("Le fichier n'existe pas ! (Attention : Créé le fichier si inexistant !)");
-        }
-
-        //String exemple = "Ceci est un exemple";
-
-        // Créons quelques lignes
-        List<String> maListe = new ArrayList<>();
-        for(int i = 0; i <= 10; i++)
-        {
-            maListe.add(String.format("Bonjour %d fois", i));
-        }
-
-        for (String chaine : maListe)
-        {
-            try
-            {
-                Files.writeString(path, chaine + System.lineSeparator(),StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                // StandardOpenOption.CREATE --> Créer le fichier si il n'existe pas
-                // StandardOpenOption.APPEND --> Ajoute le texte (à la suite de l'existant) dans fichier existant du même nom au lieu de l'écraser et le remplacer
-                // System.lineSeparator() --> Ajoute le texte en passant une ligne
-            }
-            catch (IOException e)
-            {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        List<String> autreListe = new ArrayList<>();
-        try
-        {
-            autreListe = Files.readAllLines(path);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        for (String ligne : autreListe)
-        {
-            System.out.println(ligne);
-        }
-    }*/
-
 
 }
