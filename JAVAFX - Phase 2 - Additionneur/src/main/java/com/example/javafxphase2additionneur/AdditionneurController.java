@@ -1,9 +1,9 @@
-package com.example.javafxphase2scenebuilder;
+package com.example.javafxphase2additionneur;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class AdditionneurController {
     @FXML
     private Label welcomeText;
 
