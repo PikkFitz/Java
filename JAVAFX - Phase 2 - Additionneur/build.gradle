@@ -24,8 +24,7 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.example.javafxphase2additionneur'
-    mainClass = 'com.example.javafxphase2additionneur.HelloApplication'
+    mainClass = 'com.example.javafxphase2additionneur.AdditionneurApp'
 }
 
 javafx {
